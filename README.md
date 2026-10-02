@@ -13,10 +13,10 @@ Live path (after you enable Pages): `https://<your-user>.github.io/shasta-deals/
 1. **Deal board** — browse seed / manually curated prices for local chains.
 2. **Shopping list** — add items; the app **assigns a suggested store** and **groups the list by store**.
 3. **Export / share** — download `.txt` or copy/share the grouped list.
-4. **Store catalog** — WinCo, Safeway, Raley's, Walmart, Grocery Outlet, Costco, CVS, Walgreens, Dollar Tree, etc., with addresses and OSM map links.
+4. **Store catalog** — WinCo, Safeway, Raley’s, Walmart, Grocery Outlet, Costco, CVS, Walgreens, Dollar Tree, etc., with addresses and OSM map links.
 5. **Bargain tips** — open-knowledge tips (not scraped from Instacart / GasBuddy / private apps).
 
-### "AI" — honest labeling
+### “AI” — honest labeling
 
 | Mode | What it is |
 |------|------------|
@@ -80,7 +80,7 @@ If `gh auth login` is required, complete that first — this project does **not*
 
 ### How to update deals
 
-1. Open a store's **public weekly ad** page you are allowed to view/copy from, or type prices you observed.
+1. Open a store’s **public weekly ad** page you are allowed to view/copy from, or type prices you observed.
 2. Edit `data/deals.csv` (same columns as the header row) **or** drop a CSV in `data/inbox/`.
 3. Run `node scripts/refresh-deals.js` locally, **or** push and let GitHub Actions commit the refreshed JSON.
 4. Mark `illustrative=false` when the price is from a real open circular entry you verified.
@@ -121,3 +121,7 @@ Built for **MeidasWell** · Redding / Shasta County · 2026
 - Mobile-first / WCAG-minded (labels, focus rings, live status, contrast)
 - Offline `localStorage` list · vanilla JS · no heavy deps
 - See `docs/UX_RESEARCH.md` for IA research notes
+
+## GitHub Pages
+
+This repo publishes from the **`docs/`** folder (branch `main` → `/docs`). Keep site copies under `docs/` in sync with root `index.html`, `css/`, `js/`, `data/` when you edit the site.
