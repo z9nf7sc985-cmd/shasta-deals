@@ -1,1 +1,56 @@
-{"generated_at":"2026-10-01T21:02:33.658Z","region":"Redding / Shasta County, CA","zip":"96001","count":3,"disclaimer":"Prices may be illustrative seed data until replaced with manually curated open circular entries.","deals":[{"id":"d001","item":"Milk (gallon whole)","normalized":"milk gallon","category":"dairy","store_id":"winco-old-alturas","store_chain":"WinCo","price":2.98,"effective_price":2.98,"unit":"gallon","illustrative":true},{"id":"d002","item":"Eggs (dozen large)","normalized":"eggs dozen","category":"dairy","store_id":"grocery-outlet-churn","store_chain":"Grocery Outlet","price":1.99,"effective_price":1.99,"unit":"dozen","illustrative":true},{"id":"d003","item":"Bananas","normalized":"bananas","category":"produce","store_id":"winco-old-alturas","store_chain":"WinCo","price":0.48,"effective_price":0.48,"unit":"lb","illustrative":true}]}
+{
+  "generated_at": "2026-10-02T05:39:14.468Z",
+  "region": "Redding / Shasta County, CA",
+  "zip": "96001",
+  "count": 3,
+  "deals": [
+    {
+      "id": "d001",
+      "item": "Milk (gallon whole)",
+      "normalized": "milk gallon",
+      "category": "dairy",
+      "store_id": "winco-old-alturas",
+      "store_chain": "WinCo",
+      "price": 2.98,
+      "unit_price": "2.98",
+      "unit": "gallon",
+      "valid_from": "2026-09-28",
+      "valid_to": "2026-10-11",
+      "source": "seed-manual",
+      "illustrative": true,
+      "effective_price": 2.98
+    },
+    {
+      "id": "d002",
+      "item": "Eggs (dozen large)",
+      "normalized": "eggs dozen",
+      "category": "dairy",
+      "store_id": "grocery-outlet-churn",
+      "store_chain": "Grocery Outlet",
+      "price": 1.99,
+      "unit_price": "1.99",
+      "unit": "dozen",
+      "valid_from": "2026-09-28",
+      "valid_to": "2026-10-11",
+      "source": "seed-manual",
+      "illustrative": true,
+      "effective_price": 1.99
+    },
+    {
+      "id": "d003",
+      "item": "Bananas",
+      "normalized": "bananas",
+      "category": "produce",
+      "store_id": "winco-old-alturas",
+      "store_chain": "WinCo",
+      "price": 0.48,
+      "unit_price": "0.48",
+      "unit": "lb",
+      "valid_from": "2026-09-28",
+      "valid_to": "2026-10-11",
+      "source": "seed-manual",
+      "illustrative": true,
+      "effective_price": 0.48
+    }
+  ]
+}
