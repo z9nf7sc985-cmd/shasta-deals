@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Free local shopping deals &amp; lists for Redding / Shasta County, CA — MeidasWell. Open-source, GitHub Pages, algorithmic store suggestions." />
-  <title>Shasta Deals — Redding shopping lists &amp; deals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Free Redding / Shasta County shopping lists &amp; deals — trip-ordered by store, mobile-first, offline localStorage. MeidasWell · open source." />
+  <meta name="theme-color" content="#0f1419" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Shasta Deals — Redding trip lists &amp; deals</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='12' width='64' height='64' fill='%233ecf8e'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='32' font-family='sans-serif' font-weight='700' fill='%230b1a12'%3ES%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to list</a>
+
   <header class="app-header">
     <div class="brand">
       <div class="brand-mark" aria-hidden="true">S</div>
       <div>
         <h1>Shasta Deals</h1>
-        <p>MeidasWell · Redding / Shasta County · free &amp; open</p>
+        <p>MeidasWell · Redding / Shasta · free &amp; open</p>
       </div>
     </div>
     <nav aria-label="Sections">
@@ -22,105 +26,135 @@
       <a href="#deals">Deals</a>
       <a href="#stores">Stores</a>
       <a href="#tips">Tips</a>
-      <a href="#about">About</a>
     </nav>
   </header>
 
-  <main>
-    <div id="boot-error" class="banner" hidden></div>
+  <div class="sticky-add" id="sticky-add">
+    <form id="add-form" class="sticky-add-form" autocomplete="off">
+      <div class="field grow">
+        <label for="item-name">Add item</label>
+        <input id="item-name" name="item" placeholder="milk, eggs, shampoo…" enterkeyhint="done" required />
+      </div>
+      <div class="field qty-field">
+        <label for="item-qty">Qty</label>
+        <input id="item-qty" type="number" min="1" inputmode="numeric" value="1" />
+      </div>
+      <button class="btn btn-primary btn-add" type="submit">Add</button>
+    </form>
+    <div class="chip-row" id="deal-chips" role="group" aria-label="Quick add from deals"></div>
+    <p class="sr-only" id="status-live" aria-live="polite" aria-atomic="true"></p>
+  </div>
 
-    <section class="hero">
-      <h2>Local deals + shopping lists — no paid APIs</h2>
+  <main id="main">
+    <div id="boot-error" class="banner" hidden role="alert"></div>
+
+    <section class="hero compact" aria-labelledby="hero-title">
+      <h2 id="hero-title">Trip list first — deals second</h2>
       <p>
-        Build a list by item. The site suggests the best Redding-area store using
-        <strong>offline rules + seed/open circular prices</strong> (not Instacart scraping,
-        not a custom-trained model). Hosted free on GitHub Pages.
+        Add an item → auto store → shop in <strong>Redding-sensible stop order</strong>.
+        Rules + seed prices (not Instacart scraping, not a custom model).
       </p>
       <div class="badge-row">
         <span class="badge algo" id="algo-label">Algorithmic (rules)</span>
         <span class="badge warn">Seed prices — verify in store</span>
-        <span class="badge">MIT · FOSS · OSM map links</span>
+        <span class="badge">Offline · localStorage · OSM</span>
       </div>
     </section>
 
-    <section id="list" class="section">
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Add to shopping list</h3>
-          <p class="sub">Suggestions use price match when a deal exists; otherwise category fallback for Redding stores.</p>
-          <form id="add-form">
-            <div class="row">
-              <div class="field">
-                <label for="item-name">Item</label>
-                <input id="item-name" name="item" placeholder="e.g. milk, eggs, shampoo" autocomplete="off" required />
-              </div>
-              <div class="field" style="max-width:100px">
-                <label for="item-qty">Qty</label>
-                <input id="item-qty" type="number" min="1" value="1" />
-              </div>
-              <button class="btn btn-primary" type="submit">Add</button>
-            </div>
-          </form>
-          <div class="actions" id="quick-add" aria-label="Quick add"></div>
-          <div class="actions">
-            <button type="button" class="btn" id="btn-export">Export .txt</button>
-            <button type="button" class="btn" id="btn-share">Share / copy</button>
-            <button type="button" class="btn btn-danger" id="btn-clear">Clear list</button>
+    <section id="list" class="section" aria-labelledby="list-heading">
+      <div class="trip-summary card" id="trip-summary" hidden>
+        <h2 id="list-heading" class="visually-inline">Your trip</h2>
+        <p class="trip-stats" id="trip-stats"></p>
+        <div class="toolbar">
+          <div class="field inline">
+            <label for="list-filter">Filter</label>
+            <input id="list-filter" type="search" placeholder="Filter items…" />
           </div>
+          <div class="field inline">
+            <label for="list-sort">Sort stores</label>
+            <select id="list-sort">
+              <option value="trip">Trip order (Redding)</option>
+              <option value="name">A–Z store</option>
+              <option value="subtotal">Highest subtotal</option>
+              <option value="items">Most items</option>
+            </select>
+          </div>
+          <label class="check-label">
+            <input type="checkbox" id="hide-checked" />
+            Hide checked
+          </label>
         </div>
-
-        <div class="card">
-          <h3>Your items <span class="badge" id="list-count">0 items</span></h3>
-          <p class="sub">Stored in this browser only (localStorage).</p>
-          <div id="list-flat"></div>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-export">Export .txt</button>
+          <button type="button" class="btn" id="btn-share">Share / copy</button>
+          <button type="button" class="btn" id="btn-uncheck">Uncheck all</button>
+          <button type="button" class="btn btn-danger" id="btn-clear">Clear list</button>
         </div>
       </div>
 
-      <div class="card" style="margin-top:1rem">
-        <h3>List by store</h3>
-        <p class="sub">Grouped for fewer trips — check illustrative prices before you go.</p>
+      <div class="card trip-card">
+        <div class="card-head">
+          <h3>List by store <span class="badge" id="list-count">0 items</span></h3>
+          <p class="sub">Grouped for fewer trips · check items as you shop · map opens OSM</p>
+        </div>
         <div id="list-by-store"></div>
       </div>
 
-      <div class="card" id="llm-panel" style="margin-top:1rem">
-        <h3>Optional free LLM tips</h3>
+      <details class="card details-card" id="flat-edit">
+        <summary>Edit flat list (qty / remove / reassign view)</summary>
+        <p class="sub">Stored in this browser only (localStorage).</p>
+        <div id="list-flat"></div>
+      </details>
+
+      <details class="card details-card" id="llm-panel">
+        <summary>Optional free LLM tips</summary>
         <p class="sub">
-          Offline heuristics always work. Optionally paste a <em>free</em> API key (e.g. Groq free tier)
-          stored only in your browser — or run <span class="mono">Ollama</span> locally and point a compatible endpoint later.
-          Nothing is trained or shipped as a custom model here.
+          Offline heuristics always work. Optionally paste a free API key (e.g. Groq free tier)
+          stored only in your browser. Nothing is trained or shipped as a custom model here.
         </p>
-        <details>
-          <summary>Advanced: paste free key (optional)</summary>
-          <div class="row" style="margin-top:0.75rem">
-            <div class="field">
-              <label for="llm-key">API key (localStorage only)</label>
-              <input id="llm-key" type="password" placeholder="Leave blank to stay fully offline" autocomplete="off" />
-            </div>
-            <button type="button" class="btn" id="btn-save-key">Save key</button>
-            <button type="button" class="btn btn-primary" id="btn-llm-tip">Get LLM tip</button>
+        <div class="row">
+          <div class="field grow">
+            <label for="llm-key">API key (localStorage only)</label>
+            <input id="llm-key" type="password" placeholder="Leave blank to stay fully offline" autocomplete="off" />
           </div>
-          <pre id="llm-out" class="mono" style="white-space:pre-wrap;background:var(--bg);padding:0.75rem;border-radius:8px;border:1px solid var(--border)"></pre>
-        </details>
-      </div>
+          <button type="button" class="btn" id="btn-save-key">Save key</button>
+          <button type="button" class="btn btn-primary" id="btn-llm-tip">Get LLM tip</button>
+        </div>
+        <pre id="llm-out" class="mono out-box" hidden></pre>
+      </details>
     </section>
 
-    <section id="deals" class="section">
+    <section id="deals" class="section" aria-labelledby="deals-heading">
       <div class="card">
-        <h3>Deal board</h3>
-        <p class="sub" id="deals-meta"></p>
-        <div class="field search-bar">
-          <label for="deal-search">Filter deals</label>
-          <input id="deal-search" placeholder="milk, winco, hba…" />
+        <div class="card-head">
+          <h3 id="deals-heading">Deal board</h3>
+          <p class="sub" id="deals-meta"></p>
         </div>
-        <div style="overflow-x:auto">
+        <div class="toolbar">
+          <div class="field grow">
+            <label for="deal-search">Filter deals</label>
+            <input id="deal-search" type="search" placeholder="milk, winco, hba…" />
+          </div>
+          <div class="field">
+            <label for="deal-sort">Sort</label>
+            <select id="deal-sort">
+              <option value="price">Lowest price</option>
+              <option value="store">Store</option>
+              <option value="item">Item A–Z</option>
+              <option value="category">Category</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap" role="region" aria-label="Deals table" tabindex="0">
           <table class="deal-table">
             <thead>
               <tr>
-                <th>Item</th>
-                <th>Store</th>
-                <th>Cat</th>
-                <th>Price</th>
-                <th>Valid</th>
+                <th scope="col">Item</th>
+                <th scope="col">Store</th>
+                <th scope="col">Cat</th>
+                <th scope="col">Price</th>
+                <th scope="col">Valid</th>
+                <th scope="col"><span class="sr-only">Add</span></th>
               </tr>
             </thead>
             <tbody id="deals-body"></tbody>
@@ -129,37 +163,39 @@
       </div>
     </section>
 
-    <section id="stores" class="section">
-      <h3 style="margin:0 0 0.75rem">Redding / Shasta stores</h3>
-      <p class="sub" style="margin-top:0">Seeded from public locator / open map knowledge. Map links use OpenStreetMap (no Google Maps SDK).</p>
+    <section id="stores" class="section" aria-labelledby="stores-heading">
+      <h3 id="stores-heading" class="section-title">Redding / Shasta stores</h3>
+      <p class="sub section-sub">Seeded from public locators. Ordered by trip zone. Map links use OpenStreetMap.</p>
       <div class="grid grid-stores" id="stores-grid"></div>
     </section>
 
     <section id="tips" class="section">
-      <div class="card">
-        <h3>Bargain tips (open knowledge)</h3>
+      <details class="card details-card">
+        <summary>Bargain tips (open knowledge)</summary>
         <p class="sub">Curated guidance — not scraped from proprietary shopper apps.</p>
         <div class="tips" id="tips-list"></div>
-      </div>
+      </details>
     </section>
 
     <section id="about" class="section">
-      <div class="card">
-        <h3>About &amp; limitations</h3>
+      <details class="card details-card">
+        <summary>About &amp; limitations</summary>
         <ul>
-          <li><strong>What works today:</strong> shopping list, algorithmic store assignment, list-by-store, export/share, local store catalog, seed deal board, tips, optional browser LLM key.</li>
-          <li><strong>What needs you:</strong> update <span class="mono">data/deals.csv</span> from open weekly ads / circulars you are allowed to copy, then let GitHub Actions rebuild <span class="mono">deals.json</span>.</li>
-          <li><strong>We do not scrape:</strong> Instacart, GasBuddy, proprietary store apps, or anything that violates ToS. Flipp FlyerKit needs a partner token — not used here.</li>
-          <li><strong>“AI”:</strong> honest rules engine + optional user-supplied free LLM. No custom-trained model is claimed or shipped.</li>
+          <li><strong>Works today:</strong> sticky add, auto store, trip-ordered groupings, check-off, subtotals, map links, deal chips, filter/sort, export/share, offline list.</li>
+          <li><strong>Needs you:</strong> update <span class="mono">data/deals.csv</span> from open weekly ads you may copy; Actions rebuilds <span class="mono">deals.json</span>.</li>
+          <li><strong>We do not scrape:</strong> Instacart, GasBuddy, proprietary apps, or ToS-violating sources.</li>
+          <li><strong>“AI”:</strong> honest rules engine + optional user-supplied free LLM. No custom-trained model.</li>
         </ul>
-        <p>See <span class="mono">README.md</span> and <span class="mono">CONTRIBUTING.md</span> in the repo.</p>
-      </div>
+        <p>See <span class="mono">docs/UX_RESEARCH.md</span>, <span class="mono">README.md</span>, <span class="mono">CONTRIBUTING.md</span>.</p>
+      </details>
     </section>
   </main>
 
   <footer>
-    <p>Shasta Deals · built for MeidasWell · MIT License · prices may be illustrative until circular CSV updates · <span id="year"></span></p>
+    <p>Shasta Deals · MeidasWell · MIT · prices may be illustrative until circular CSV updates · <span id="year"></span></p>
   </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="js/heuristics.js"></script>
