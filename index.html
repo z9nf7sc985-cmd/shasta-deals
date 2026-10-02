@@ -1,2 +1,168 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shasta Deals</title><link rel="stylesheet" href="css/style.css"></head><body><main><h1>Shasta Deals</h1><p>Free local shopping deals and lists for Redding / Shasta County, CA.</p><p class="note">Seed prices are illustrative—verify in store.</p><section><h2>Deal board</h2><div id="deals">Loading deals…</div></section><section><h2>Stores</h2><div id="stores">Loading stores…</div></section><section><h2>Bargain tips</h2><div id="tips">Loading tips…</div></section></main><script src="js/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Free local shopping deals &amp; lists for Redding / Shasta County, CA — MeidasWell. Open-source, GitHub Pages, algorithmic store suggestions." />
+  <title>Shasta Deals — Redding shopping lists &amp; deals</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='12' width='64' height='64' fill='%233ecf8e'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='32' font-family='sans-serif' font-weight='700' fill='%230b1a12'%3ES%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">S</div>
+      <div>
+        <h1>Shasta Deals</h1>
+        <p>MeidasWell · Redding / Shasta County · free &amp; open</p>
+      </div>
+    </div>
+    <nav aria-label="Sections">
+      <a href="#list">List</a>
+      <a href="#deals">Deals</a>
+      <a href="#stores">Stores</a>
+      <a href="#tips">Tips</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="boot-error" class="banner" hidden></div>
+
+    <section class="hero">
+      <h2>Local deals + shopping lists — no paid APIs</h2>
+      <p>
+        Build a list by item. The site suggests the best Redding-area store using
+        <strong>offline rules + seed/open circular prices</strong> (not Instacart scraping,
+        not a custom-trained model). Hosted free on GitHub Pages.
+      </p>
+      <div class="badge-row">
+        <span class="badge algo" id="algo-label">Algorithmic (rules)</span>
+        <span class="badge warn">Seed prices — verify in store</span>
+        <span class="badge">MIT · FOSS · OSM map links</span>
+      </div>
+    </section>
+
+    <section id="list" class="section">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Add to shopping list</h3>
+          <p class="sub">Suggestions use price match when a deal exists; otherwise category fallback for Redding stores.</p>
+          <form id="add-form">
+            <div class="row">
+              <div class="field">
+                <label for="item-name">Item</label>
+                <input id="item-name" name="item" placeholder="e.g. milk, eggs, shampoo" autocomplete="off" required />
+              </div>
+              <div class="field" style="max-width:100px">
+                <label for="item-qty">Qty</label>
+                <input id="item-qty" type="number" min="1" value="1" />
+              </div>
+              <button class="btn btn-primary" type="submit">Add</button>
+            </div>
+          </form>
+          <div class="actions" id="quick-add" aria-label="Quick add"></div>
+          <div class="actions">
+            <button type="button" class="btn" id="btn-export">Export .txt</button>
+            <button type="button" class="btn" id="btn-share">Share / copy</button>
+            <button type="button" class="btn btn-danger" id="btn-clear">Clear list</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Your items <span class="badge" id="list-count">0 items</span></h3>
+          <p class="sub">Stored in this browser only (localStorage).</p>
+          <div id="list-flat"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h3>List by store</h3>
+        <p class="sub">Grouped for fewer trips — check illustrative prices before you go.</p>
+        <div id="list-by-store"></div>
+      </div>
+
+      <div class="card" id="llm-panel" style="margin-top:1rem">
+        <h3>Optional free LLM tips</h3>
+        <p class="sub">
+          Offline heuristics always work. Optionally paste a <em>free</em> API key (e.g. Groq free tier)
+          stored only in your browser — or run <span class="mono">Ollama</span> locally and point a compatible endpoint later.
+          Nothing is trained or shipped as a custom model here.
+        </p>
+        <details>
+          <summary>Advanced: paste free key (optional)</summary>
+          <div class="row" style="margin-top:0.75rem">
+            <div class="field">
+              <label for="llm-key">API key (localStorage only)</label>
+              <input id="llm-key" type="password" placeholder="Leave blank to stay fully offline" autocomplete="off" />
+            </div>
+            <button type="button" class="btn" id="btn-save-key">Save key</button>
+            <button type="button" class="btn btn-primary" id="btn-llm-tip">Get LLM tip</button>
+          </div>
+          <pre id="llm-out" class="mono" style="white-space:pre-wrap;background:var(--bg);padding:0.75rem;border-radius:8px;border:1px solid var(--border)"></pre>
+        </details>
+      </div>
+    </section>
+
+    <section id="deals" class="section">
+      <div class="card">
+        <h3>Deal board</h3>
+        <p class="sub" id="deals-meta"></p>
+        <div class="field search-bar">
+          <label for="deal-search">Filter deals</label>
+          <input id="deal-search" placeholder="milk, winco, hba…" />
+        </div>
+        <div style="overflow-x:auto">
+          <table class="deal-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Store</th>
+                <th>Cat</th>
+                <th>Price</th>
+                <th>Valid</th>
+              </tr>
+            </thead>
+            <tbody id="deals-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="stores" class="section">
+      <h3 style="margin:0 0 0.75rem">Redding / Shasta stores</h3>
+      <p class="sub" style="margin-top:0">Seeded from public locator / open map knowledge. Map links use OpenStreetMap (no Google Maps SDK).</p>
+      <div class="grid grid-stores" id="stores-grid"></div>
+    </section>
+
+    <section id="tips" class="section">
+      <div class="card">
+        <h3>Bargain tips (open knowledge)</h3>
+        <p class="sub">Curated guidance — not scraped from proprietary shopper apps.</p>
+        <div class="tips" id="tips-list"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="card">
+        <h3>About &amp; limitations</h3>
+        <ul>
+          <li><strong>What works today:</strong> shopping list, algorithmic store assignment, list-by-store, export/share, local store catalog, seed deal board, tips, optional browser LLM key.</li>
+          <li><strong>What needs you:</strong> update <span class="mono">data/deals.csv</span> from open weekly ads / circulars you are allowed to copy, then let GitHub Actions rebuild <span class="mono">deals.json</span>.</li>
+          <li><strong>We do not scrape:</strong> Instacart, GasBuddy, proprietary store apps, or anything that violates ToS. Flipp FlyerKit needs a partner token — not used here.</li>
+          <li><strong>“AI”:</strong> honest rules engine + optional user-supplied free LLM. No custom-trained model is claimed or shipped.</li>
+        </ul>
+        <p>See <span class="mono">README.md</span> and <span class="mono">CONTRIBUTING.md</span> in the repo.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Shasta Deals · built for MeidasWell · MIT License · prices may be illustrative until circular CSV updates · <span id="year"></span></p>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/heuristics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
