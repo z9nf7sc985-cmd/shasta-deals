@@ -1,0 +1,4 @@
+id,item,normalized,category,store_id,store_chain,price,unit_price,unit,valid_from,valid_to,source,illustrative
+d001,Milk (gallon whole),milk gallon,dairy,winco-old-alturas,WinCo,2.98,2.98,gallon,2026-09-28,2026-10-11,seed-manual,true
+d002,Eggs (dozen large),eggs dozen,dairy,grocery-outlet-churn,Grocery Outlet,1.99,1.99,dozen,2026-09-28,2026-10-11,seed-manual,true
+d003,Bananas,bananas,produce,winco-old-alturas,WinCo,0.48,0.48,lb,2026-09-28,2026-10-11,seed-manual,true

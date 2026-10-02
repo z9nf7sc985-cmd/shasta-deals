@@ -1,0 +1,1 @@
+{"name":"shasta-deals","version":"1.0.0","private":true,"description":"Free Redding/Shasta shopping deals + lists","scripts":{"refresh":"node scripts/refresh-deals.js","serve":"python3 -m http.server 4173"},"license":"MIT"}
