@@ -1,0 +1,54 @@
+{
+  "updated": "2026-10-01",
+  "disclaimer": "General bargain tips from public shopping knowledge and open consumer guidance — not scraped from proprietary store apps. Always verify prices and store policies locally.",
+  "tips": [
+    {
+      "id": "t1",
+      "title": "Compare unit price, not just shelf price",
+      "body": "Look at price per ounce, pound, or sheet. Warehouse packs and dollar-store sizes can look cheap until you normalize.",
+      "tags": ["unit-price", "all-stores"]
+    },
+    {
+      "id": "t2",
+      "title": "WinCo for staples; Grocery Outlet for surprises",
+      "body": "In Redding, many shoppers use WinCo for milk, eggs, rice, and produce staples, then hit Grocery Outlet for rotating closeouts (coffee, snacks, sauces).",
+      "tags": ["redding", "winco", "grocery-outlet"]
+    },
+    {
+      "id": "t3",
+      "title": "Drugstore ads need coupons",
+      "body": "CVS and Walgreens weekly ads often assume ExtraCare / myWalgreens digital coupons. Shelf price alone can look high — check the ad + app before buying HBA.",
+      "tags": ["cvs", "walgreens", "hba"]
+    },
+    {
+      "id": "t4",
+      "title": "Costco when the unit math wins",
+      "body": "Membership cost spreads across big trips. Best for chicken packs, toilet paper, butter, and rice if you have storage and will use it before spoilage.",
+      "tags": ["costco", "bulk"]
+    },
+    {
+      "id": "t5",
+      "title": "Safeway / Raley's for sale weeks + rewards",
+      "body": "Mid-tier grocers shine when the weekly ad hits your list. Stack store digital coupons with advertised sales when the store allows it.",
+      "tags": ["safeway", "raleys", "weekly-ad"]
+    },
+    {
+      "id": "t6",
+      "title": "SNAP / EBT awareness",
+      "body": "Many Redding grocery locations accept SNAP/EBT for eligible foods. Hot prepared foods and most non-food HBA are usually excluded — confirm at checkout.",
+      "tags": ["snap", "ebt", "public-info"]
+    },
+    {
+      "id": "t7",
+      "title": "Plan by store, not by aisle alone",
+      "body": "Split the list: staples at a budget grocer, sale meat/produce at whoever is cheapest that week, HBA where the coupon math works.",
+      "tags": ["planning"]
+    },
+    {
+      "id": "t8",
+      "title": "Open sources for circulars",
+      "body": "Prefer retailer weekly-ad web pages you are allowed to view, or manually typed CSV updates. Do not scrape Instacart, GasBuddy, or proprietary apps that forbid it.",
+      "tags": ["legal", "open-source"]
+    }
+  ]
+}
