@@ -1,0 +1,31 @@
+id,item,normalized,category,store_id,store_chain,price,unit,unit_price,sale_price,valid_from,valid_to,source,source_url,notes,illustrative
+d001,Milk (gallon whole),milk gallon,dairy,winco-old-alturas,WinCo,2.98,gallon,2.98,,2026-09-28,2026-10-11,seed-manual,,Often among lowest local shelf prices; verify in store,true
+d002,Milk (gallon whole),milk gallon,dairy,walmart-dana,Walmart,3.27,gallon,3.27,,2026-09-28,2026-10-11,seed-manual,,Compare to WinCo same week,true
+d003,Milk (gallon whole),milk gallon,dairy,safeway-pine,Safeway,4.49,gallon,4.49,3.99,2026-09-28,2026-10-04,seed-manual,https://www.safeway.com/weeklyad.html,Illustrative sale; clip digital if available,true
+d004,Eggs (dozen large),eggs dozen,dairy,winco-old-alturas,WinCo,2.48,dozen,2.48,,2026-09-28,2026-10-11,seed-manual,,Cage-free may differ,true
+d005,Eggs (dozen large),eggs dozen,dairy,grocery-outlet-churn,Grocery Outlet,1.99,dozen,1.99,,2026-09-28,2026-10-11,seed-manual,,Stock varies; buy when available,true
+d006,Bananas,bananas,produce,walmart-dana,Walmart,0.54,lb,0.54,,2026-09-28,2026-10-11,seed-manual,,Per-lb produce staples,true
+d007,Bananas,bananas,produce,winco-old-alturas,WinCo,0.48,lb,0.48,,2026-09-28,2026-10-11,seed-manual,,Check ripeness,true
+d008,Chicken breast boneless,chicken breast,meat,costco-bechelli,Costco,2.99,lb,2.99,,2026-09-28,2026-10-11,seed-manual,,Bulk pack; membership required,true
+d009,Chicken breast boneless,chicken breast,meat,winco-old-alturas,WinCo,3.48,lb,3.48,,2026-09-28,2026-10-11,seed-manual,,Smaller pack convenience,true
+d010,Ground beef 80/20,ground beef,meat,walmart-dana,Walmart,4.47,lb,4.47,,2026-09-28,2026-10-11,seed-manual,,Compare lean % and pack size,true
+d011,Bread (white loaf),bread loaf,bakery,winco-old-alturas,WinCo,1.48,loaf,1.48,,2026-09-28,2026-10-11,seed-manual,,Store brand,true
+d012,Bread (white loaf),bread loaf,bakery,safeway-pine,Safeway,2.99,loaf,2.99,1.99,2026-09-28,2026-10-04,seed-manual,https://www.safeway.com/weeklyad.html,BOGO weeks common — illustrative,true
+d013,Rice (white 5 lb),rice 5lb,pantry,winco-old-alturas,WinCo,4.98,bag,4.98,,2026-09-28,2026-10-11,seed-manual,,Bulk aisle may beat bagged,true
+d014,Rice (white ~20 lb),rice bulk,pantry,costco-bechelli,Costco,14.99,bag,14.99,,2026-09-28,2026-10-11,seed-manual,,Unit price usually wins if you use it,true
+d015,Peanut butter 16oz,peanut butter,pantry,walmart-dana,Walmart,2.48,jar,2.48,,2026-09-28,2026-10-11,seed-manual,,Store brand vs name brand,true
+d016,Peanut butter 16oz,peanut butter,pantry,dollar-tree-lake,Dollar Tree,1.25,jar,1.25,,2026-09-28,2026-10-11,seed-manual,,Check jar size — may be smaller,true
+d017,Toilet paper 12ct,toilet paper,household,costco-bechelli,Costco,19.99,pack,19.99,,2026-09-28,2026-10-11,seed-manual,,Compare sheets/roll unit price,true
+d018,Toilet paper 6ct,toilet paper,household,walmart-dana,Walmart,6.97,pack,6.97,,2026-09-28,2026-10-11,seed-manual,,Smaller pack for storage-limited,true
+d019,Laundry detergent 100oz,laundry detergent,household,walmart-dana,Walmart,9.97,bottle,9.97,,2026-09-28,2026-10-11,seed-manual,,Watch load count not oz alone,true
+d020,Ibuprofen 200ct,ibuprofen,hba,walmart-dana,Walmart,6.48,bottle,6.48,,2026-09-28,2026-10-11,seed-manual,,Often cheaper than drugstore shelf,true
+d021,Ibuprofen 200ct,ibuprofen,hba,cvs-placer,CVS,12.99,bottle,12.99,6.49,2026-09-28,2026-10-04,seed-manual,https://www.cvs.com/weeklyad,Illustrative ExtraCare sale,true
+d022,Shampoo 12.6oz,shampoo,hba,walgreens-cypress,Walgreens,7.99,bottle,7.99,4.99,2026-09-28,2026-10-04,seed-manual,https://www.walgreens.com/offers/weeklyad.jsp,Illustrative weekly ad,true
+d023,Shampoo 12.6oz,shampoo,hba,dollar-tree-lake,Dollar Tree,1.25,bottle,1.25,,2026-09-28,2026-10-11,seed-manual,,Value brand; check ingredients preference,true
+d024,Coffee ground 11-12oz,coffee ground,pantry,grocery-outlet-churn,Grocery Outlet,4.99,can,4.99,,2026-09-28,2026-10-11,seed-manual,,Closeout brands rotate,true
+d025,Coffee ground 11-12oz,coffee ground,pantry,safeway-pine,Safeway,8.99,can,8.99,5.99,2026-09-28,2026-10-04,seed-manual,https://www.safeway.com/weeklyad.html,Club/digital may stack,true
+d026,Apples (Gala),apples,produce,raleys-lake,Raley's,1.99,lb,1.99,,2026-09-28,2026-10-11,seed-manual,,Quality-focused; compare unit price,true
+d027,Apples (Gala),apples,produce,winco-old-alturas,WinCo,1.28,lb,1.28,,2026-09-28,2026-10-11,seed-manual,,Often better price on common fruit,true
+d028,Yogurt 32oz,yogurt tub,dairy,safeway-cypress,Safeway,4.49,tub,4.49,2.99,2026-09-28,2026-10-04,seed-manual,https://www.safeway.com/weeklyad.html,Illustrative sale week,true
+d029,Butter 1lb,butter,dairy,costco-bechelli,Costco,4.49,lb,4.49,,2026-09-28,2026-10-11,seed-manual,,Multi-pack common,true
+d030,Pasta 16oz,pasta,pantry,winco-old-alturas,WinCo,0.98,box,0.98,,2026-09-28,2026-10-11,seed-manual,,Stock up when under $1,true
