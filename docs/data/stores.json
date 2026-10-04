@@ -1,98 +1,9 @@
 {
   "region": "Redding / Shasta County, CA",
-  "zip": "96001",
-  "updated": "2026-10-01",
-  "source_note": "Addresses from public store locator pages and open map listings. Verify before visiting. Coordinates approximate (OSM-style).",
+  "zip": "96003",
+  "updated": "2026-10-04",
+  "source_note": "Only stores whose guest pickup pages returned prices on Oct 4, 2026. Other Redding stores are set aside until a page loads a price.",
   "stores": [
-    {
-      "id": "winco-old-alturas",
-      "name": "WinCo Foods",
-      "chain": "WinCo",
-      "type": [
-        "grocery"
-      ],
-      "address": "1050 Old Alturas Rd, Redding, CA 96003",
-      "phone": "(530) 722-9179",
-      "lat": 40.6085,
-      "lon": -122.357,
-      "hours_note": "Open 24 hours",
-      "notes": "Employee-owned; bulk bins; often strong on staples. Cash/debit preferred historically — confirm card policy.",
-      "price_tier": "budget",
-      "tags": [
-        "bulk",
-        "staples",
-        "24h"
-      ],
-      "trip_order": 2,
-      "zone": "Northeast / Old Alturas"
-    },
-    {
-      "id": "safeway-pine",
-      "name": "Safeway (Pine St)",
-      "chain": "Safeway",
-      "type": [
-        "grocery",
-        "pharmacy"
-      ],
-      "address": "2275 Pine St, Redding, CA 96001",
-      "phone": "(530) 247-3030",
-      "lat": 40.5865,
-      "lon": -122.3915,
-      "hours_note": "Check store for hours",
-      "notes": "Weekly ad + Safeway for U digital coupons. Good for sale/digital deal stacking.",
-      "price_tier": "mid",
-      "tags": [
-        "weekly-ad",
-        "digital-coupons",
-        "pharmacy"
-      ],
-      "trip_order": 4,
-      "zone": "Central / Pine–Placer"
-    },
-    {
-      "id": "safeway-cypress",
-      "name": "Safeway (E Cypress)",
-      "chain": "Safeway",
-      "type": [
-        "grocery",
-        "pharmacy"
-      ],
-      "address": "1070 E Cypress Ave, Redding, CA 96002",
-      "phone": "(530) 226-5871",
-      "lat": 40.567,
-      "lon": -122.355,
-      "hours_note": "Check store for hours",
-      "notes": "Same chain deals as Pine St; useful if you're on the south/east side.",
-      "price_tier": "mid",
-      "tags": [
-        "weekly-ad",
-        "digital-coupons",
-        "pharmacy"
-      ],
-      "trip_order": 5,
-      "zone": "Southeast / Cypress–Churn"
-    },
-    {
-      "id": "raleys-lake",
-      "name": "Raley's (North Point / Lake Blvd)",
-      "chain": "Raley's",
-      "type": [
-        "grocery"
-      ],
-      "address": "201 Lake Blvd, Redding, CA 96003",
-      "phone": "",
-      "lat": 40.601,
-      "lon": -122.39,
-      "hours_note": "Approx 6am–11pm",
-      "notes": "Regional chain; stronger on produce/meat quality; watch Something Extra rewards.",
-      "price_tier": "premium",
-      "tags": [
-        "produce",
-        "rewards"
-      ],
-      "trip_order": 1,
-      "zone": "North / Lake Blvd"
-    },
     {
       "id": "walmart-dana",
       "name": "Walmart Supercenter",
@@ -107,7 +18,7 @@
       "lat": 40.586,
       "lon": -122.345,
       "hours_note": "Approx 6am–11pm",
-      "notes": "Broad assortment; compare unit prices on pantry and HBA.",
+      "notes": "Guest pickup prices captured Oct 4, 2026. Not a live feed.",
       "price_tier": "budget",
       "tags": [
         "general",
@@ -118,161 +29,26 @@
       "zone": "East / Dana–mall"
     },
     {
-      "id": "grocery-outlet-churn",
-      "name": "Grocery Outlet (Churn Creek)",
-      "chain": "Grocery Outlet",
+      "id": "foodmaxx-churn",
+      "name": "FoodMaxx",
+      "chain": "FoodMaxx",
       "type": [
-        "grocery",
-        "discount"
-      ],
-      "address": "2235 Churn Creek Rd, Redding, CA 96002",
-      "phone": "(530) 221-6138",
-      "lat": 40.5751,
-      "lon": -122.3516,
-      "hours_note": "Check store for hours",
-      "notes": "Closeout/discount finds vary weekly — great for opportunistic buys, not always for a fixed brand list.",
-      "price_tier": "discount",
-      "tags": [
-        "closeouts",
-        "opportunistic"
-      ],
-      "trip_order": 5,
-      "zone": "Southeast / Cypress–Churn"
-    },
-    {
-      "id": "grocery-outlet-eureka",
-      "name": "Grocery Outlet (Eureka Way)",
-      "chain": "Grocery Outlet",
-      "type": [
-        "grocery",
-        "discount"
-      ],
-      "address": "3685 Eureka Way, Redding, CA 96001",
-      "phone": "",
-      "lat": 40.586,
-      "lon": -122.41,
-      "hours_note": "Check store for hours",
-      "notes": "West-side discount outlet; stock rotates.",
-      "price_tier": "discount",
-      "tags": [
-        "closeouts",
-        "opportunistic"
-      ],
-      "trip_order": 7,
-      "zone": "West / Eureka Way"
-    },
-    {
-      "id": "costco-bechelli",
-      "name": "Costco Wholesale",
-      "chain": "Costco",
-      "type": [
-        "warehouse",
         "grocery"
       ],
-      "address": "4805 Bechelli Ln, Redding, CA 96002",
-      "phone": "(530) 222-0199",
-      "lat": 40.542,
-      "lon": -122.348,
-      "hours_note": "Membership required",
-      "notes": "Best for bulk/family packs when unit price wins. Factor membership + travel.",
-      "price_tier": "bulk",
-      "tags": [
-        "membership",
-        "bulk",
-        "gas"
-      ],
-      "trip_order": 6,
-      "zone": "South / Bechelli"
-    },
-    {
-      "id": "cvs-placer",
-      "name": "CVS Pharmacy (Placer St)",
-      "chain": "CVS",
-      "type": [
-        "drugstore",
-        "pharmacy"
-      ],
-      "address": "1035 Placer St, Suite 110, Redding, CA 96001",
-      "phone": "(530) 999-6073",
-      "lat": 40.5865,
-      "lon": -122.392,
-      "hours_note": "Store ~9am–6pm weekdays; closed weekends — verify",
-      "notes": "Weekly ad + ExtraCare. Often better with digital coupons than shelf price alone.",
-      "price_tier": "mid",
-      "tags": [
-        "pharmacy",
-        "weekly-ad",
-        "hba"
-      ],
-      "trip_order": 4,
-      "zone": "Central / Pine–Placer"
-    },
-    {
-      "id": "walgreens-cypress",
-      "name": "Walgreens (E Cypress)",
-      "chain": "Walgreens",
-      "type": [
-        "drugstore",
-        "pharmacy"
-      ],
-      "address": "980 E Cypress Ave, Redding, CA 96002",
-      "phone": "(530) 221-5028",
-      "lat": 40.5675,
-      "lon": -122.358,
-      "hours_note": "Store open late; pharmacy earlier close — verify",
-      "notes": "Weekly ad + myWalgreens rewards. Compare HBA vs Walmart/WinCo.",
-      "price_tier": "mid",
-      "tags": [
-        "pharmacy",
-        "weekly-ad",
-        "hba"
-      ],
-      "trip_order": 5,
-      "zone": "Southeast / Cypress–Churn"
-    },
-    {
-      "id": "dollar-tree-lake",
-      "name": "Dollar Tree (Lake Blvd)",
-      "chain": "Dollar Tree",
-      "type": [
-        "dollar",
-        "general"
-      ],
-      "address": "40 Lake Blvd, Redding, CA 96003",
-      "phone": "",
-      "lat": 40.598,
-      "lon": -122.3905,
-      "hours_note": "Check store for hours",
-      "notes": "Fixed-price household/party/snacks. Check size — unit price may or may not win.",
-      "price_tier": "fixed",
-      "tags": [
-        "household",
-        "snacks"
-      ],
-      "trip_order": 1,
-      "zone": "North / Lake Blvd"
-    },
-    {
-      "id": "trader-joes-note",
-      "name": "Trader Joe's (nearest — Chico / farther)",
-      "chain": "Trader Joe's",
-      "type": [
-        "specialty"
-      ],
-      "address": "Not in Redding — nearest typically Chico area",
+      "address": "1330 Churn Creek Road, Redding, CA 96001",
       "phone": "",
       "lat": null,
       "lon": null,
-      "hours_note": "Trip planning only",
-      "notes": "No Redding location as of seed date. Included so the list doesn't invent a local TJ's.",
-      "price_tier": "specialty",
+      "hours_note": "Verify pickup hours",
+      "notes": "Guest pickup prices captured Oct 4, 2026. Not a live feed.",
+      "price_tier": "budget",
       "tags": [
-        "out-of-area",
-        "reference"
+        "pickup",
+        "grocery"
       ],
-      "trip_order": 99,
-      "zone": "Out of area"
+      "trip_order": 5,
+      "zone": "Southeast / Churn Creek"
     }
   ],
-  "trip_note": "trip_order reflects a Redding-sensible multi-stop loop (north → NE → east → central → SE → south → west). Not turn-by-turn routing."
+  "trip_note": "Pickup only. Stores with no working online price are hidden."
 }
