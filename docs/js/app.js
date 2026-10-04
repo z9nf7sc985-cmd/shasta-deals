@@ -50,12 +50,27 @@
     const storesJson = await storesRes.json();
     const dealsJson = await dealsRes.json();
     const tipsJson = await tipsRes.json();
+
+    // The FoodMaxx catalog is optional. A published catalog replaces the
+    // illustrative seed board; the seed board remains a safe fallback until
+    // the first real pickup catalog is imported.
+    let foodmaxxJson = null;
+    try {
+      const foodmaxxRes = await fetch('data/foodmaxx.json');
+      if (foodmaxxRes.ok) foodmaxxJson = await foodmaxxRes.json();
+    } catch (_) {
+      // Optional file is absent in older/local builds.
+    }
+
     state.stores = storesJson.stores || [];
-    state.deals = dealsJson.deals || [];
+    const hasFoodmaxxCatalog = foodmaxxJson && Array.isArray(foodmaxxJson.deals);
+    state.deals = hasFoodmaxxCatalog ? foodmaxxJson.deals : dealsJson.deals || [];
+    const activeMeta = hasFoodmaxxCatalog ? foodmaxxJson : dealsJson;
     state.meta = {
-      generated_at: dealsJson.generated_at,
-      count: dealsJson.count,
-      disclaimer: dealsJson.disclaimer
+      generated_at: activeMeta.generated_at,
+      count: state.deals.length,
+      disclaimer: activeMeta.disclaimer,
+      foodmaxx: !!hasFoodmaxxCatalog
     };
     state.tips = tipsJson.tips || [];
     state.list = loadList();
@@ -106,7 +121,7 @@
   function reassignAll() {
     state.list = state.list.map((it) => ({
       ...it,
-      assignment: ShastaHeuristics.assignBestStore(it.name, state.deals, state.stores)
+      assignment: ShastaHeuristics.assignBestStore(it.name, state.deals, state.stores, it.qty)
     }));
     saveList();
   }
@@ -119,14 +134,14 @@
     if (existing) {
       existing.qty += q;
       existing.checked = false;
-      existing.assignment = ShastaHeuristics.assignBestStore(existing.name, state.deals, state.stores);
+      existing.assignment = ShastaHeuristics.assignBestStore(existing.name, state.deals, state.stores, existing.qty);
     } else {
       state.list.push({
         id: 'i' + Date.now() + Math.random().toString(36).slice(2, 7),
         name: n,
         qty: q,
         checked: false,
-        assignment: ShastaHeuristics.assignBestStore(n, state.deals, state.stores)
+        assignment: ShastaHeuristics.assignBestStore(n, state.deals, state.stores, q)
       });
     }
     saveList();
@@ -154,6 +169,7 @@
     const it = state.list.find((x) => x.id === id);
     if (!it) return;
     it.qty = Math.max(1, qty);
+    it.assignment = ShastaHeuristics.assignBestStore(it.name, state.deals, state.stores, it.qty);
     saveList();
     renderList();
   }
@@ -293,9 +309,10 @@
         const gul = div.querySelector('ul');
         for (const it of g.items) {
           const a = it.assignment || {};
+          const itemTotal = a.estimatedTotal != null ? Number(a.estimatedTotal) : a.price != null ? Number(a.price) * it.qty : null;
           const unit =
             a.price != null
-              ? `<span class="price">$${(a.price * it.qty).toFixed(2)}</span>${
+              ? `<span class="price">$${itemTotal.toFixed(2)}</span>${
                   a.unit ? ` <span class="item-meta">(${it.qty}× $${Number(a.price).toFixed(2)}/${escapeHtml(a.unit)})</span>` : ''
                 }`
               : '<span class="price muted">TBD</span>';
@@ -306,7 +323,7 @@
               ${it.checked ? 'checked' : ''} aria-label="Got ${escapeHtml(it.name)}" />
             <div>
               <div class="item-title">${it.qty}× ${escapeHtml(it.name)}</div>
-              <div class="item-meta">${escapeHtml(a.dealItem || a.category || methodLabel(a.method))}${
+              <div class="item-meta">${escapeHtml(a.dealItem || a.category || methodLabel(a.method))} · ${escapeHtml(a.reason || 'price TBD')}${
                 a.illustrative ? ' · <span class="illust">illustrative</span>' : ''
               }</div>
             </div>
@@ -332,7 +349,7 @@
         <div>
           <div class="item-title">${escapeHtml(it.name)}</div>
           <div class="item-meta">
-            ${a.storeChain ? escapeHtml(a.storeChain) : 'No store'} · ${methodLabel(a.method)}
+            ${a.storeChain ? escapeHtml(a.storeChain) : 'No store'} · ${methodLabel(a.method)} · ${escapeHtml(a.reason || 'price TBD')}
             ${a.illustrative ? ' · <span class="illust">illustrative</span>' : ''}
           </div>
           <div class="item-meta">${priceHtml}</div>
@@ -354,7 +371,7 @@
   function renderStores() {
     const el = $('#stores-grid');
     el.innerHTML = '';
-    const ordered = state.stores.slice().sort((a, b) => {
+    const ordered = state.stores.filter((s) => ShastaHeuristics.isReddingStore(s)).slice().sort((a, b) => {
       const ao = a.trip_order != null ? a.trip_order : 50;
       const bo = b.trip_order != null ? b.trip_order : 50;
       if (ao !== bo) return ao - bo;
@@ -368,10 +385,18 @@
           ? `<a href="${osmLink(s.lat, s.lon)}" target="_blank" rel="noopener">OSM map</a>`
           : '';
       const zone = s.zone ? `<div class="item-meta">Zone: ${escapeHtml(s.zone)}</div>` : '';
+      const storeDeals = state.deals.filter((d) => d.store_id === s.id && d.effective_price != null);
+      const hasRealPickup = storeDeals.some((d) => !d.illustrative);
+      const pickupStatus = hasRealPickup
+        ? `${storeDeals.filter((d) => !d.illustrative).length} store pickup price(s) listed`
+        : storeDeals.length
+          ? 'Sample data only — no online pickup price'
+          : 'No online pickup price';
       card.innerHTML = `
         <div class="name">${escapeHtml(s.name)} <span class="tier ${escapeHtml(s.price_tier)}">${escapeHtml(s.price_tier)}</span></div>
         <div class="addr">${escapeHtml(s.address)}</div>
         ${zone}
+        <div class="item-meta"><strong>${escapeHtml(pickupStatus)}</strong></div>
         <div class="item-meta">${escapeHtml(s.hours_note || '')}${s.phone ? ' · ' + escapeHtml(s.phone) : ''}</div>
         <div class="item-meta">${escapeHtml(s.notes || '')}</div>
         <div class="item-meta">${osm}</div>`;
@@ -379,53 +404,125 @@
     }
   }
 
-  function dealRows() {
+  function comparisonStores() {
+    const stores = state.stores.filter((s) => {
+      if (!ShastaHeuristics.isReddingStore(s)) return false;
+      const types = s.type || [];
+      return types.includes('grocery') || types.includes('warehouse') || types.includes('discount') ||
+        state.deals.some((d) => d.store_id === s.id);
+    }).map((s) => ({ ...s }));
+    return stores.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }
+
+  function comparisonRows() {
     const q = state.dealFilter.toLowerCase().trim();
-    let rows = state.deals.filter((d) => {
+    const matching = state.deals.filter((d) => {
+      const store = state.stores.find((s) => s.id === d.store_id);
+      if (!ShastaHeuristics.isReddingStore(store)) return false;
       if (!q) return true;
-      return (
-        d.item.toLowerCase().includes(q) ||
-        d.store_chain.toLowerCase().includes(q) ||
-        (d.category || '').includes(q) ||
-        (d.normalized || '').includes(q)
-      );
+      const searchable = [
+        d.item,
+        d.normalized,
+        d.department,
+        d.category,
+        d.store_chain,
+        d.store_id
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return searchable.includes(q);
     });
-    rows = rows.slice();
+    const grouped = new Map();
+    for (const d of matching) {
+      const key = (d.normalized || d.item || '').toLowerCase().trim();
+      if (!key) continue;
+      if (!grouped.has(key)) grouped.set(key, { key, product: d.item || d.normalized, department: d.department || d.category || '', offers: [] });
+      grouped.get(key).offers.push(d);
+    }
+    const rows = [...grouped.values()].map((row) => {
+      const listed = state.list.find((it) => ShastaHeuristics.normalizeQuery(it.name) === row.key);
+      row.quantity = listed ? listed.qty : 1;
+      row.choice = ShastaHeuristics.comparePickupPrices(row.offers, row.quantity);
+      return row;
+    });
+    const lowest = (row) => row.choice?.unitPrice ?? Infinity;
     if (state.dealSort === 'price') {
-      rows.sort((a, b) => (a.effective_price ?? 999) - (b.effective_price ?? 999));
-    } else if (state.dealSort === 'store') {
-      rows.sort((a, b) => a.store_chain.localeCompare(b.store_chain) || a.item.localeCompare(b.item));
+      rows.sort((a, b) => lowest(a) - lowest(b) || a.product.localeCompare(b.product));
     } else if (state.dealSort === 'item') {
-      rows.sort((a, b) => a.item.localeCompare(b.item));
+      rows.sort((a, b) => a.product.localeCompare(b.product));
     } else if (state.dealSort === 'category') {
-      rows.sort((a, b) => (a.category || '').localeCompare(b.category || '') || a.item.localeCompare(b.item));
+      rows.sort((a, b) => a.department.localeCompare(b.department) || a.product.localeCompare(b.product));
+    } else if (state.dealSort === 'store') {
+      rows.sort((a, b) => (a.offers[0].store_chain || '').localeCompare(b.offers[0].store_chain || '') || a.product.localeCompare(b.product));
     }
     return rows;
   }
 
   function renderDeals() {
-    const el = $('#deals-body');
-    const rows = dealRows();
-    el.innerHTML = rows
-      .map((d) => {
-        const eff = d.effective_price != null ? `$${Number(d.effective_price).toFixed(2)}` : '—';
-        const was =
-          d.sale_price != null && d.price != null
-            ? `<span class="item-meta">was $${Number(d.price).toFixed(2)}</span>`
-            : '';
-        const addName = escapeAttr(d.normalized || d.item);
-        return `<tr>
-          <td>${escapeHtml(d.item)}${d.illustrative ? '<div class="illust">illustrative</div>' : ''}</td>
-          <td>${escapeHtml(d.store_chain)}</td>
-          <td>${escapeHtml(d.category)}</td>
-          <td><span class="price">${eff}</span> ${was}<div class="item-meta">${escapeHtml(d.unit || '')}</div></td>
-          <td class="item-meta">${escapeHtml(d.valid_from || '')} → ${escapeHtml(d.valid_to || '')}</td>
-          <td><button type="button" class="btn btn-sm btn-primary" data-deal-add="${addName}" aria-label="Add ${escapeHtml(d.item)} to list">Add</button></td>
-        </tr>`;
-      })
-      .join('');
+    const body = $('#deals-body');
+    const head = $('#deals-head');
+    const stores = comparisonStores();
+    const rows = comparisonRows();
+    if (head) {
+      head.innerHTML = '<th scope="col">Product</th><th scope="col">Department</th>' +
+        stores.map((s) => `<th scope="col">${escapeHtml(s.name || s.chain || s.id)}<br><span class="item-meta">Pickup price · unit/pack</span></th>`).join('') +
+        '<th scope="col"><span class="sr-only">Add</span></th>';
+    }
+    body.innerHTML = rows.map((row) => {
+      const choice = row.choice || {};
+      const chosen = choice.offer;
+      const chosenStore = chosen ? (chosen.store_chain || chosen.store_id || 'selected store') : 'No pickup price';
+      const chosenText = chosen
+        ? `<div class="item-meta"><strong>Chosen: ${escapeHtml(chosenStore)}</strong> · ${escapeHtml(choice.reason || 'regular price')} · qty ${row.quantity}</div>`
+        : '<div class="item-meta">No Redding pickup price</div>';
+      const byStore = new Map();
+      for (const d of row.offers) {
+        if (!byStore.has(d.store_id)) byStore.set(d.store_id, []);
+        byStore.get(d.store_id).push(d);
+      }
+      const cells = stores.map((store) => {
+        const storeOffers = byStore.get(store.id) || [];
+        const regularOffer = storeOffers
+          .filter((offer) => (offer.effective_price ?? offer.price) != null)
+          .sort((a, b) => (a.effective_price ?? a.price) - (b.effective_price ?? b.price))[0];
+        const dealOffers = storeOffers.filter((offer) => Number.isFinite(Number(offer.deal_qty)) && Number(offer.deal_qty) > 0 && Number.isFinite(Number(offer.deal_total)) && Number(offer.deal_total) > 0);
+        const d = regularOffer || dealOffers[0];
+        const price = d ? (d.effective_price ?? d.price) : null;
+        if (!d) return '<td class="no-price">No online pickup price</td>';
+        const isChosen = chosen && chosen.store_id === store.id;
+        const sample = d.illustrative ? '<span class="illust">sample</span>' : '<span class="pickup-label">store pickup</span>';
+        const chosenLabel = isChosen ? '<span class="cheapest-label">chosen</span>' : '';
+        const unit = d.unit_price != null ? `$${Number(d.unit_price).toFixed(2)}/${escapeHtml(d.unit || 'unit')}` : price != null ? `$${Number(price).toFixed(2)}/${escapeHtml(d.unit || 'unit')}` : '—';
+        const pack = d.pack_size || d.unit || '—';
+        const deals = dealOffers.map((offer) => {
+          const n = Number(offer.deal_qty), total = Number(offer.deal_total);
+          return `<div class="item-meta">Buy ${n} for $${total.toFixed(2)} ($${(total / n).toFixed(2)} each)</div>`;
+        }).join('');
+        return `<td class="offer${isChosen ? ' cheapest' : ''}">
+          ${price != null ? `<span class="price">$${Number(price).toFixed(2)}</span>` : '<span class="price">—</span>'} ${sample} ${chosenLabel}
+          <div class="item-meta">Unit: ${unit}</div>
+          <div class="item-meta">Pack: ${escapeHtml(pack)}</div>${deals}
+        </td>`;
+      }).join('');
+      const addName = escapeAttr(row.product || row.key);
+      return `<tr>
+        <td><strong>${escapeHtml(row.product)}</strong>${chosenText}</td>
+        <td>${escapeHtml(row.department)}</td>
+        ${cells}
+        <td><button type="button" class="btn btn-sm btn-primary" data-deal-add="${addName}" aria-label="Add ${escapeHtml(row.product)} to list">Add</button></td>
+      </tr>`;
+    }).join('');
+    if (!rows.length) body.innerHTML = '<tr><td colspan="99" class="empty">No products match this search.</td></tr>';
+
+    const catalogNote = $('#foodmaxx-note');
+    if (catalogNote) {
+      catalogNote.textContent = state.meta?.foodmaxx
+        ? 'Pickup prices are from Walmart at 1515 Dana Dr and FoodMaxx at 1330 Churn Creek, captured Oct 4, 2026. Not a live feed, and not every item in the store. Delivery is not listed.'
+        : 'FoodMaxx catalog not loaded: comparison rows use illustrative sample data so the layout remains usable. No live pickup prices are shown, and delivery is never listed.';
+    }
     $('#deals-meta').textContent = state.meta
-      ? `${rows.length}/${state.meta.count} shown · generated ${formatPt(state.meta.generated_at)} · ${state.meta.disclaimer || ''}`
+      ? `${rows.length} products · ${state.meta.count} price entries · generated ${formatPt(state.meta.generated_at)} · ${state.meta.disclaimer || ''}`
       : '';
     const sortEl = $('#deal-sort');
     if (sortEl) sortEl.value = state.dealSort;
