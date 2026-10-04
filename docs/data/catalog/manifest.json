@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-10-04T15:10:30Z",
+  "count": 1243,
+  "disclaimer": "Pickup prices captured the morning of Oct 4, 2026 from Walmart Supercenter at 1515 Dana Dr and FoodMaxx at 1330 Churn Creek Rd. Not a live feed. Safeway, Raley's, and Target did not return prices. Delivery is not listed. This is a staple search (milk, eggs, meat, bread, and similar), not every item in the store.",
+  "parts": [
+    "data/catalog/part-01.json",
+    "data/catalog/part-02.json",
+    "data/catalog/part-03.json",
+    "data/catalog/part-04.json",
+    "data/catalog/part-05.json",
+    "data/catalog/part-06.json",
+    "data/catalog/part-07.json",
+    "data/catalog/part-08.json",
+    "data/catalog/part-09.json",
+    "data/catalog/part-10.json",
+    "data/catalog/part-11.json",
+    "data/catalog/part-12.json",
+    "data/catalog/part-13.json",
+    "data/catalog/part-14.json",
+    "data/catalog/part-15.json",
+    "data/catalog/part-16.json"
+  ]
+}
