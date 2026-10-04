@@ -1,0 +1,25 @@
+{
+  "note": "Shown until a matching Open Food Facts package photo loads. Photos are Wikimedia Commons, via Wikipedia and Commons.",
+  "images": {
+    "apples": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Pink_lady_and_cross_section.jpg/250px-Pink_lady_and_cross_section.jpg",
+    "bananas": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Bananavarieties.jpg/250px-Bananavarieties.jpg",
+    "beans": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Baked_beans_in_tomato_sauce.jpg/250px-Baked_beans_in_tomato_sauce.jpg",
+    "bottled water": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Stilles_Mineralwasser.jpg/250px-Stilles_Mineralwasser.jpg",
+    "bread": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Fresh_made_bread_05.jpg/250px-Fresh_made_bread_05.jpg",
+    "butter": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/2019-11-28_14_27_10_A_stick_of_butter_laid_out_for_Thanksgiving_Dinner_in_the_Parkway_Village_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg/250px-2019-11-28_14_27_10_A_stick_of_butter_laid_out_for_Thanksgiving_Dinner_in_the_Parkway_Village_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg",
+    "cereal": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Corn_flakes.jpg/250px-Corn_flakes.jpg",
+    "cheese": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Somerset-Cheddar.jpg/250px-Somerset-Cheddar.jpg",
+    "chicken breast": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Chicken_meat.jpg/250px-Chicken_meat.jpg",
+    "coffee": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Latte_and_dark_coffee.jpg/250px-Latte_and_dark_coffee.jpg",
+    "eggs": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Egg_cartons_with_chicken_eggs_03.jpg/250px-Egg_cartons_with_chicken_eggs_03.jpg",
+    "ground beef": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Hackfleisch-1.jpg/250px-Hackfleisch-1.jpg",
+    "laundry detergent": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Pralni_pra%C5%A1ek.JPG/250px-Pralni_pra%C5%A1ek.JPG",
+    "milk": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Glass_of_Milk_%2833657535532%29.jpg/250px-Glass_of_Milk_%2833657535532%29.jpg",
+    "pasta": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/%28Pasta%29_by_David_Adam_Kess_%28pic.2%29.jpg/250px-%28Pasta%29_by_David_Adam_Kess_%28pic.2%29.jpg",
+    "peanut butter": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/2020-03-24_20_57_22_An_open_jar_of_Skippy_Creamy_Peanut_Butter_in_the_Dulles_section_of_Sterling%2C_Loudoun_County%2C_Virginia.jpg/250px-2020-03-24_20_57_22_An_open_jar_of_Skippy_Creamy_Peanut_Butter_in_the_Dulles_section_of_Sterling%2C_Loudoun_County%2C_Virginia.jpg",
+    "rice": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/A_bowl_of_rice.jpg/250px-A_bowl_of_rice.jpg",
+    "toilet paper": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Toiletpapier_%28Gobran111%29.jpg/250px-Toiletpapier_%28Gobran111%29.jpg",
+    "tortillas": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Stacks_of_corn_tortillas_and_flour_tortillas%2C_with_the_top_one_rolled%2C_side_view_%282%29.jpg/250px-Stacks_of_corn_tortillas_and_flour_tortillas%2C_with_the_top_one_rolled%2C_side_view_%282%29.jpg",
+    "yogurt": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Joghurt.jpg/250px-Joghurt.jpg"
+  }
+}
