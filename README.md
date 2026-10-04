@@ -1,6 +1,6 @@
 # Shasta Deals
 
-**Free, always-on shopping deals + shopping lists for MeidasWell** (Instacart shopper) in **Redding, CA / Shasta County**.
+**Free, always-on shopping deals + shopping lists for MeidasWell** () in **Redding, CA / Shasta County**.
 
 Static site · GitHub Pages · open-source stack only · **no paid APIs** · **no proprietary app scraping**.
 
