@@ -1,4 +1,7 @@
 (function () {
+  var extra = document.createElement("script");
+  extra.src = "js/departments.js";
+  document.body.appendChild(extra);
   Promise.all([
     fetch("js/meals-a.js").then(function (r) { if (!r.ok) throw new Error("meals-a"); return r.text(); }),
     fetch("js/meals-b.js").then(function (r) { if (!r.ok) throw new Error("meals-b"); return r.text(); })
