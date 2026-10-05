@@ -6,6 +6,9 @@
   <meta name="description" content="Free Redding / Shasta County shopping lists &amp; deals — trip-ordered by store, mobile-first, offline localStorage. MeidasWell · open source." />
   <meta name="theme-color" content="#0f1419" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0f1419" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Shasta Deals — Redding trip lists &amp; deals</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='12' width='64' height='64' fill='%233ecf8e'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='32' font-family='sans-serif' font-weight='700' fill='%230b1a12'%3ES%3C/text%3E%3C/svg%3E" />
@@ -108,18 +111,17 @@
       </details>
 
       <details class="card details-card" id="llm-panel">
-        <summary>Optional free LLM tips</summary>
+        <summary>Ask Grok</summary>
         <p class="sub">
-          Offline heuristics always work. Optionally paste a free API key (e.g. Groq free tier)
-          stored only in your browser. Nothing is trained or shipped as a custom model here.
+          The list still works with no key. To ask Grok, paste an xAI key here. It stays in this browser only and is not saved on the site.
         </p>
         <div class="row">
           <div class="field grow">
-            <label for="llm-key">API key (localStorage only)</label>
-            <input id="llm-key" type="password" placeholder="Leave blank to stay fully offline" autocomplete="off" />
+            <label for="llm-key">xAI API key (this browser only)</label>
+            <input id="llm-key" type="password" placeholder="Paste an xAI key, or leave blank" autocomplete="off" />
           </div>
           <button type="button" class="btn" id="btn-save-key">Save key</button>
-          <button type="button" class="btn btn-primary" id="btn-llm-tip">Get LLM tip</button>
+          <button type="button" class="btn btn-primary" id="btn-llm-tip">Ask Grok</button>
         </div>
         <pre id="llm-out" class="mono out-box" hidden></pre>
       </details>
@@ -200,7 +202,7 @@
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
   <script src="js/fetch-shim.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/z9nf7sc985-cmd/shasta-deals@main/js/heuristics.js"></script>
+  <script src="js/heuristics.js"></script>
   <script src="js/stock.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/z9nf7sc985-cmd/shasta-deals@main/js/app.js"></script>
   <script src="js/where.js"></script>

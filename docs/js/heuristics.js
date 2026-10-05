@@ -272,7 +272,7 @@
   async function optionalLlmPolish(prompt, opts) {
     const key = (opts && opts.apiKey) || '';
     const endpoint =
-      (opts && opts.endpoint) || 'https://api.groq.com/openai/v1/chat/completions';
+      (opts && opts.endpoint) || 'https://api.x.ai/v1/chat/completions';
     if (!key) {
       return {
         ok: false,
@@ -287,12 +287,12 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: (opts && opts.model) || 'llama-3.1-8b-instant',
+          model: (opts && opts.model) || 'grok-4.6',
           messages: [
             {
               role: 'system',
               content:
-                'You help with Redding CA grocery shopping tips. Be brief. Do not invent exact prices. Say when unsure.'
+                'You are Grok, helping with Redding CA grocery shopping. Be brief. Use only prices included in the user message. If a price is not there, say so. Do not invent prices.'
             },
             { role: 'user', content: prompt }
           ],
@@ -305,7 +305,7 @@
       }
       const data = await res.json();
       const text = data.choices?.[0]?.message?.content || '';
-      return { ok: true, text, label: 'Optional free LLM (user key)' };
+      return { ok: true, text, label: 'Grok' };
     } catch (e) {
       return { ok: false, reason: String(e.message || e) };
     }
