@@ -97,6 +97,16 @@
     return 'general';
   }
 
+  // Same rules as app.js PLB: per_lb when both have it; printed before calculated on near-ties; else pack price.
+  function comparePerLb(a, b) {
+    if (a.per_lb != null && b.per_lb != null) {
+      const d = Number(a.per_lb) - Number(b.per_lb);
+      if (Math.abs(d) >= 0.005) return d;
+      return (a.per_lb_source === 'printed' ? 0 : 1) - (b.per_lb_source === 'printed' ? 0 : 1);
+    }
+    return a.effective_price - b.effective_price;
+  }
+
   /**
    * @returns {{ storeId, storeChain, price, dealId, method, confidence, alternatives, category, illustrative }}
    */
@@ -121,19 +131,23 @@
     if (scored.length) {
       const topScore = scored[0].score;
       const band = scored.filter((x) => x.score >= topScore - 15);
-      band.sort((a, b) => a.deal.effective_price - b.deal.effective_price);
+      band.sort((a, b) => comparePerLb(a.deal, b.deal));
       const best = band[0];
       const alts = band.slice(1, 4).map((x) => ({
         store_id: x.deal.store_id,
         store_chain: x.deal.store_chain,
         price: x.deal.effective_price,
-        item: x.deal.item
+        item: x.deal.item,
+        per_lb: x.deal.per_lb ?? null,
+        per_lb_source: x.deal.per_lb_source || null
       }));
       return {
         storeId: best.deal.store_id,
         storeChain: best.deal.store_chain,
         price: best.deal.effective_price,
         unit: best.deal.unit,
+        per_lb: best.deal.per_lb ?? null,
+        per_lb_source: best.deal.per_lb_source || null,
         dealId: best.deal.id,
         dealItem: best.deal.item,
         method: 'algorithmic-price-match',
